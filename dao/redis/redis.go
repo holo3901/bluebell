@@ -1,39 +1,38 @@
 package redis
 
-//创建redis数据库
 import (
+	"context"
 	"fmt"
-	"xxx/settings"
 
-	"github.com/go-redis/redis"
+	"github.com/go-redis/redis/v8"
+
+	"bluebell/setting"
 )
 
-//声明一个全局的rdb变量
+// 实际生产环境下 context.Background() 按需替换
+
 var (
 	client *redis.Client
 	Nil    = redis.Nil
 )
 
-//初始化连接
-func Init(cfg *settings.RedisConfig) (err error) {
+// Init 初始化连接
+func Init(cfg *setting.RedisConfig) (err error) {
 	client = redis.NewClient(&redis.Options{
-		Addr: fmt.Sprintf("%s:%d",
-			/*	viper.GetString("redis.host"),
-					viper.GetInt("redis.port"),
-				),
-				Password: viper.GetString("redis.password"),
-				DB:       viper.GetInt("redis.db"),
-				PoolSize: viper.GetInt("redis.pool_size"),*/
-			cfg.Host,
-			cfg.Port,
-		),
-		Password: cfg.Password,
-		DB:       cfg.DB,
-		PoolSize: cfg.PoolSize,
+		Addr:         fmt.Sprintf("%s:%d", cfg.Host, cfg.Port),
+		Password:     cfg.Password, // no password set
+		DB:           cfg.DB,       // use default DB
+		PoolSize:     cfg.PoolSize,
+		MinIdleConns: cfg.MinIdleConns,
 	})
-	_, err = client.Ping().Result()
-	return err
+
+	_, err = client.Ping(context.Background()).Result()
+	if err != nil {
+		return err
+	}
+	return nil
 }
+
 func Close() {
 	_ = client.Close()
 }

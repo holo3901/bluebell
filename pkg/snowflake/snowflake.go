@@ -1,9 +1,9 @@
 package snowflake
 
-//生成随机的ID
 import (
-	sf "github.com/bwmarrin/snowflake"
 	"time"
+
+	sf "github.com/bwmarrin/snowflake"
 )
 
 var node *sf.Node

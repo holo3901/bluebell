@@ -1,8 +1,7 @@
-# yaml 配置  failed to solve: rpc error: code = Unknown desc = failed to solve with frontend dockerfile.v0: failed to create
-#LLB definition: unexpected status code [manifests stretch-slim]: 403 For 这类错误，直接 docker pull debain:strech-slim
+# yaml 配置
 version: "3.7"
 services:
-  mysql:
+  mysql8019:
     image: "mysql:8.0.19"
     ports:
       - "33061:3306"
@@ -17,11 +16,11 @@ services:
     image: "redis:5.0.7"
     ports:
       - "26379:6379"
-  bubble_app:
+  bluebell_app:
     build: .
-    command: sh -c "./wait-for.sh mysql:3306 redis507:6379 -- ./bluebell_app ./conf/config.yaml"
+    command: sh -c "./wait-for.sh mysql8019:3306 redis507:6379 -- ./bluebell_app ./conf/config.yaml"
     depends_on:
-      - mysql
+      - mysql8019
       - redis507
     ports:
-      - "8888:8080"
+      - "8888:8084"

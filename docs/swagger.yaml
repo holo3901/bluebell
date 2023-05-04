@@ -17,45 +17,65 @@ definitions:
   models.ApiPostDetail:
     properties:
       author_id:
+        description: 作者id
         type: integer
       author_name:
+        description: 作者
         type: string
       community_id:
+        description: 社区id
         type: integer
       content:
+        description: 帖子内容
         type: string
       create_time:
         type: string
       id:
         type: integer
       introduction:
-        description: omitempty当这个字段是空的时候，Introduction不展示
         type: string
       name:
         type: string
       status:
+        description: 帖子状态
         type: integer
       title:
+        description: 帖子标题
         type: string
       vote_num:
+        description: 投票数
         type: integer
     required:
     - community_id
     - content
     - title
     type: object
-host: 127.0.0.1:8080
+  models.ParamPostList:
+    properties:
+      community_id:
+        description: 可以为空
+        type: integer
+      order:
+        description: 排序依据
+        example: score
+        type: string
+      page:
+        description: 页码
+        example: 1
+        type: integer
+      size:
+        description: 每页数据量
+        example: 10
+        type: integer
+    type: object
+host: 127.0.0.1:8084
 info:
   contact:
-    email: support@swagger.io
-    name: zh
-    url: http://www.swagger.io/support
-  description: 这里写描述信息
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: http://swagger.io/terms/
-  title: 请求社区及投票数
+    name: liwenzhou
+    url: http://www.liwenzhou.com
+  description: Go web开发进阶项目实战课程bluebell
+  license: {}
+  title: bluebell项目接口文档
   version: "1.0"
 paths:
   /posts2:
@@ -64,24 +84,27 @@ paths:
       - application/json
       description: 可按社区按时间或分数排序查询帖子列表接口
       parameters:
-      - description: Bearer 用户令牌
+      - description: Bearer JWT
         in: header
         name: Authorization
         required: true
         type: string
-      - description: 可为空
+      - description: 可以为空
         in: query
         name: community_id
         type: integer
-      - description: 排序
+      - description: 排序依据
+        example: score
         in: query
         name: order
         type: string
       - description: 页码
+        example: 1
         in: query
         name: page
         type: integer
       - description: 每页数据量
+        example: 10
         in: query
         name: size
         type: integer
@@ -96,5 +119,5 @@ paths:
       - ApiKeyAuth: []
       summary: 升级版帖子列表接口
       tags:
-      - 帖子相关接口
+      - 帖子相关接口(api分组展示使用的)
 swagger: "2.0"
