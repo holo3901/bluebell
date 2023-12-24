@@ -1,4 +1,4 @@
-# gin-mall
+# bluebell
 
 **基于 gin+sqlx+mysql读写分离 的一个社区系统**
 # 项目的主要功能介绍
